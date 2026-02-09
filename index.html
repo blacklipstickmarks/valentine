@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Для тебя 💝</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFE5EC, #FF9ECF);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Arial;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 420px;
+            height: 560px;
+            background: rgba(255, 255, 255, .25);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #FF2D75;
+            margin-top: 60px;
+            font-size: 28px;
+        }
+
+        #bigHeart {
+            font-size: 80px;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        button {
+            margin-top: 60px;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 20px;
+            font-size: 20px;
+            background: #FF4F9A;
+            color: white;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, .2);
+        }
+
+        #buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        #no {
+            background: #FFC1D9;
+            color: #b30059;
+            position: absolute;
+        }
+
+        .heart {
+            position: absolute;
+            top: -30px;
+            font-size: 22px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(650px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SCREEN 1 -->
+    <div class="card" id="startScreen">
+        <div id="bigHeart">💖</div>
+        <h1>У меня для тебя кое-что 💝</h1>
+        <button id="startBtn">Открыть 💌</button>
+    </div>
+
+    <!-- SCREEN 2 -->
+    <div class="card" id="mainScreen" style="display:none">
+        <div id="bigHeart">💗</div>
+        <h1 id="text"></h1>
+
+        <div id="buttons">
+            <button id="yes">Да 💘</button>
+            <button id="no">Нет 💔</button>
+        </div>
+
+        <audio id="music" loop>
+            <source src="IMG_2913.mp3">
+        </audio>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById("startBtn");
+        const startScreen = document.getElementById("startScreen");
+        const mainScreen = document.getElementById("mainScreen");
+        const music = document.getElementById("music");
+
+        startBtn.onclick = () => {
+            music.play();
+            startScreen.style.display = "none";
+            mainScreen.style.display = "block";
+            type();
+            spawnHearts();
+        };
+
+        // typing
+        let txt = "Ты меня любишь?";
+        let i = 0;
+        let label = document.getElementById("text");
+
+        function type() {
+            if (i < txt.length) {
+                label.innerHTML += txt[i++];
+                setTimeout(type, 120);
+            }
+        }
+
+        // no button
+        let no = document.getElementById("no");
+        no.ontouchstart = no.onmouseover = () => {
+            no.style.left = Math.random() * 260 + "px";
+            no.style.top = Math.random() * 380 + "px";
+        };
+
+        // yes
+        document.getElementById("yes").onclick = () => {
+            document.getElementById("buttons").style.display = "none";
+            label.innerHTML = "Я тоже тебя люблю 💞";
+        };
+
+        // hearts
+        function spawnHearts() {
+            for (let k = 0; k < 25; k++) {
+                let h = document.createElement("div");
+                h.className = "heart";
+                h.innerHTML = "💗";
+                h.style.left = Math.random() * 100 + "%";
+                h.style.animationDuration = 3 + Math.random() * 4 + "s";
+                mainScreen.appendChild(h);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
