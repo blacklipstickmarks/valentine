@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💝 Для тебя 💝</title>
+    <title>🤍 Для тебя 🤍</title>
 
     <style>
         body {
             margin: 0;
             height: 100vh;
-            background: linear-gradient(135deg, #FFE5EC, #FF9ECF);
+            background: linear-gradient(135deg, #e5e5e5, #9fa1a6);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,75 +20,66 @@
         .card {
             width: 90%;
             max-width: 420px;
-            height: 560px;
-            background: rgba(255, 255, 255, .25);
-            backdrop-filter: blur(10px);
+            height: 640px;
+            background: rgba(255, 255, 255, .35);
+            backdrop-filter: blur(12px);
             border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .25);
             position: relative;
             overflow: hidden;
             padding: 20px;
             text-align: center;
         }
 
+        .media {
+            width: 100%;
+            max-height: 240px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+            margin-top: 10px;
+        }
+
         h1 {
-            color: #FF2D75;
-            margin-top: 60px;
-            font-size: 28px;
-        }
-
-        #bigHeart {
-            font-size: 80px;
-            animation: pulse 1.2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            color: #444;
+            margin-top: 20px;
+            font-size: 26px;
         }
 
         button {
-            margin-top: 60px;
-            padding: 16px 30px;
+            margin-top: 30px;
+            padding: 14px 26px;
             border: none;
             border-radius: 20px;
-            font-size: 20px;
-            background: #FF4F9A;
+            font-size: 18px;
+            background: #ff4f9a;
             color: white;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, .2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, .25);
         }
 
         #buttons {
             display: flex;
             justify-content: space-around;
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
         #no {
-            background: #FFC1D9;
-            color: #b30059;
+            background: #ddd;
+            color: #444;
             position: absolute;
         }
 
         .heart {
             position: absolute;
             top: -30px;
-            font-size: 22px;
+            font-size: 24px;
             animation: fall linear infinite;
+            opacity: .8;
         }
 
         @keyframes fall {
             to {
-                transform: translateY(650px);
+                transform: translateY(750px);
             }
         }
     </style>
@@ -96,44 +87,57 @@
 
 <body>
 
-    <!-- SCREEN 1 -->
-    <div class="card" id="startScreen">
-        <div id="bigHeart">💖</div>
-        <h1>У меня для тебя кое-что 💝</h1>
-        <button id="startBtn">Открыть 💌</button>
+    
+    <div class="card" id="screen1">
+        <video class="media" autoplay loop muted playsinline>
+            <source src="video_1.mp4" type="video/mp4">
+        </video>
+        <h1>У меня для тебя кое-что 🤍</h1>
+        <button id="startBtn">Открыть</button>
     </div>
 
-    <!-- SCREEN 2 -->
-    <div class="card" id="mainScreen" style="display:none">
-        <div id="bigHeart">💗</div>
+    
+    <div class="card" id="screen2" style="display:none">
+        <video class="media" autoplay loop muted playsinline>
+            <source src="video_2.mp4" type="video/mp4">
+        </video>
+
         <h1 id="text"></h1>
 
         <div id="buttons">
-            <button id="yes">Да 💘</button>
-            <button id="no">Нет 💔</button>
+            <button id="yes">Да 🤍</button>
+            <button id="no">Нет</button>
         </div>
-
-        <audio id="music" loop>
-            <source src="IMG_2913.mp3">
-        </audio>
     </div>
 
+    
+    <div class="card" id="screen3" style="display:none">
+        <video class="media" autoplay loop muted playsinline>
+            <source src="video_3.mp4" type="video/mp4">
+        </video>
+
+        <h1>Люблю тебя 🤍</h1>
+    </div>
+
+    <audio id="music" loop>
+        <source src="music.mp3">
+    </audio>
+
     <script>
-        const startBtn = document.getElementById("startBtn");
-        const startScreen = document.getElementById("startScreen");
-        const mainScreen = document.getElementById("mainScreen");
+
+        const screen1 = document.getElementById("screen1");
+        const screen2 = document.getElementById("screen2");
+        const screen3 = document.getElementById("screen3");
         const music = document.getElementById("music");
 
-        startBtn.onclick = () => {
+        document.getElementById("startBtn").onclick = () => {
             music.play();
-            startScreen.style.display = "none";
-            mainScreen.style.display = "block";
+            screen1.style.display = "none";
+            screen2.style.display = "block";
             type();
-            spawnHearts();
         };
 
-        // typing
-        let txt = "Ты меня любишь?";
+        let txt = "Будешь моей валентинкой?";
         let i = 0;
         let label = document.getElementById("text");
 
@@ -144,30 +148,31 @@
             }
         }
 
-        // no button
         let no = document.getElementById("no");
         no.ontouchstart = no.onmouseover = () => {
             no.style.left = Math.random() * 260 + "px";
-            no.style.top = Math.random() * 380 + "px";
+            no.style.top = Math.random() * 420 + "px";
         };
 
-        // yes
         document.getElementById("yes").onclick = () => {
-            document.getElementById("buttons").style.display = "none";
-            label.innerHTML = "Я тоже тебя люблю 💞";
+            screen2.style.display = "none";
+            screen3.style.display = "block";
+            spawnHearts();
         };
 
-        // hearts
+
         function spawnHearts() {
-            for (let k = 0; k < 25; k++) {
+            for (let i = 0; i < 30; i++) {
                 let h = document.createElement("div");
                 h.className = "heart";
-                h.innerHTML = "💗";
+                h.innerHTML = Math.random() > 0.5 ? "🤍" : "";
                 h.style.left = Math.random() * 100 + "%";
                 h.style.animationDuration = 3 + Math.random() * 4 + "s";
-                mainScreen.appendChild(h);
+                screen3.appendChild(h);
             }
         }
+
+
     </script>
 
 </body>
